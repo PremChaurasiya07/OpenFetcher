@@ -5,3 +5,4 @@ webdriver-manager
 markdownify
 pydantic
 ultimate-sitemap-parser
+httpx
