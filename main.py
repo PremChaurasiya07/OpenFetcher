@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import StreamingResponse
 from scraper_engine import scrape_full_site_generator
 from fastapi.middleware.cors import CORSMiddleware
-
+from typing import Optional, AsyncGenerator
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger("ScraperEngine")
@@ -22,7 +22,7 @@ app.add_middleware(
 @app.post("/scrape")
 async def scrape_endpoint(
     url: str = Body(..., embed=True),
-    site_id: str = Body(..., embed=True)
+    site_id: Optional[str] = Body(None, embed=True)
 ):
     if not url:
         raise HTTPException(status_code=400, detail="URL is required")
