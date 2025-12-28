@@ -40,8 +40,17 @@ def get_driver():
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
-    service = Service(ChromeDriverManager().install())
-    return webdriver.Chrome(service=service, options=options)
+
+    # Check if running in Docker (Render) or Locally
+    if os.path.exists("/usr/bin/chromium"):
+        # PRODUCTION: Use pre-installed Docker binaries
+        options.binary_location = "/usr/bin/chromium"
+        service = Service("/usr/bin/chromedriver")
+        return webdriver.Chrome(service=service, options=options)
+    else:
+        # LOCAL: Use Auto-downloader
+        service = Service(ChromeDriverManager().install())
+        return webdriver.Chrome(service=service, options=options)
 
 def extract_smart_content(driver) -> str:
     driver.execute_script("""
