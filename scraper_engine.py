@@ -92,7 +92,7 @@ def _sync_worker(url: str):
         driver.quit()
 
 # --- MAIN ENGINE ---
-async def scrape_full_site_generator(start_url: str, site_id: str, MAX_CONCURRENT_BROWSERS: int = 1, PAGE_LIMIT = 5) -> AsyncGenerator[dict, None]:
+async def scrape_full_site_generator(start_url: str, site_id: str, MAX_CONCURRENT_BROWSERS: int = 1, PAGE_LIMIT = 1) -> AsyncGenerator[dict, None]:
     start_time = time.perf_counter()
     parsed_start = urlparse(start_url)
     base_domain = parsed_start.netloc
